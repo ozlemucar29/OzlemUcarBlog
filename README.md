@@ -1,38 +1,39 @@
-# Özlem Uçar - Django Blog Projesi
+# Özlem Uçar - Kişisel Blog Projesi
 
-Bu proje, Django kullanılarak geliştirilmiş, modern tasarıma sahip kişisel bir blog web uygulamasıdır. Proje hem yerel bilgisayarınızda çalıştırılabilir hem de PythonAnywhere üzerinde yayına alınabilir durumda yapılandırılmıştır.
-
----
-
-## 🔑 Yönetici Giriş Bilgileri (Admin Login)
-
-Sitenin yönetim paneline veya yazı ekleme/düzenleme sayfalarına erişmek için kullanabileceğiniz hazır yönetici hesabı bilgileri aşağıdadır:
-
-| Ortam | Giriş Adresi (URL) | Kullanıcı Adı | Şifre |
-| :--- | :--- | :--- | :--- |
-| **Yerel (Lokal)** | [http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/) | `admin` | `admin123` |
-| **Canlı (Sunucu)** | [https://renn000.pythonanywhere.com/login/](https://renn000.pythonanywhere.com/login/) | `admin` | `admin123` |
-
-> ℹ️ **Not:** Canlı sitede bu bilgilerin aktif olması için sunucu konsolunda `python populate_db.py` komutunun çalıştırılmış olması gerekmektedir.
+Bu proje, Python ve Django kullanılarak geliştirilmiş, modern tasarıma ve kullanıcı dostu bir yönetim paneline sahip kişisel bir blog web uygulamasıdır.
 
 ---
 
-## 🛠️ Yerelde Çalıştırma
+## 🔗 Web Sitesi Bağlantısı (Live Website)
 
-Projenizi kendi bilgisayarınızda test etmek veya geliştirmek için şu adımları izleyin:
+Sitenin canlı yayındaki adresine aşağıdaki linkten ulaşabilirsiniz:
 
-1. **Sanal Ortamı Aktif Edin:**
-   - PowerShell: `.\venv\Scripts\Activate.ps1`
-   - CMD (Komut İstemi): `.\venv\Scripts\activate.bat`
-
-2. **Geliştirme Sunucusunu Başlatın:**
-   ```bash
-   python manage.py runserver
-   ```
-3. **Tarayıcıda Açın:** Tarayıcınızdan [http://127.0.0.1:8000/](http://127.0.0.1:8000/) adresine gidin.
+👉 **[renn000.pythonanywhere.com](https://renn000.pythonanywhere.com/)**
 
 ---
 
-## 🚀 Sunucuda Yayınlama ve Güncelleme
+## 🔑 Yönetici (Admin) Giriş Bilgileri
 
-Projenin PythonAnywhere sunucusuna nasıl kurulacağı, güncelleneceği ve yönetileceği ile ilgili detaylı rehbere [YAYINLAMA_KILAVUZU.md](YAYINLAMA_KILAVUZU.md) dosyasından ulaşabilirsiniz.
+Sitede yeni yazılar eklemek, düzenlemek, silmek ve gelen yorumları onaylamak için aşağıdaki yönetici bilgileriyle giriş yapabilirsiniz:
+
+* **Giriş Sayfası:** [https://renn000.pythonanywhere.com/login/](https://renn000.pythonanywhere.com/login/) *(veya `/admin/`)*
+* **Kullanıcı Adı:** `admin`
+* **Şifre:** `admin123`
+
+---
+
+## ✨ Öne Çıkan Özellikler
+
+* **Modern ve Responsive Tasarım:** Tüm mobil cihazlar, tabletler ve masaüstü bilgisayarlarla tam uyumlu, şık kullanıcı arayüzü.
+* **Yazar/Yönetici Paneli:** Site üzerinden doğrudan yeni yazılar ekleme, mevcut yazıları düzenleme ve silme imkanı.
+* **Kategori Sistemi:** Yazıları farklı kategoriler altında gruplayarak kolay erişim sağlama (Yazılım, Tasarım, Dijital Pazarlama vb.).
+* **Yorum Yönetimi:** Ziyaretçilerin yazılara yorum bırakabilmesi ve yöneticinin bu yorumları onaylayarak yayınlayabilmesi.
+
+---
+
+## 💻 Kullanılan Teknolojiler
+
+* **Backend:** Python, Django
+* **Frontend:** HTML5, Saf CSS (Vanilla CSS), JavaScript
+* **Veritabanı:** SQLite
+* **Sunucu/Barındırma:** PythonAnywhere, GitHub
