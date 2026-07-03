@@ -21,6 +21,9 @@
                     <li><a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">Hakkımda</a></li>
                     <li><a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">İletişim</a></li>
                     {% if user.is_authenticated %}
+                        {% if user.is_staff or user.is_superuser %}
+                            <li><a href="{% url 'contact_messages' %}" class="nav-link {% if request.resolver_match.url_name == 'contact_messages' %}active{% endif %}">Mesajlar</a></li>
+                        {% endif %}
                         <li><a href="{% url 'post_create' %}" class="nav-link {% if request.resolver_match.url_name == 'post_create' %}active{% endif %}" style="color: var(--accent-color); font-weight: 600;">Yeni Yazı</a></li>
                         <li><a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Profilim</a></li>
                         <li><a href="{% url 'logout' %}" class="nav-link" style="opacity: 0.8;">Çıkış</a></li>

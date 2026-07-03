@@ -1050,3 +1050,207 @@ button, input, textarea, select {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
 }
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast.success {
+    border-left-color: #10b981;
+}
+.toast.error {
+    border-left-color: #ef4444;
+}
+.toast.info {
+    border-left-color: #3b82f6;
+}
+.toast.warning {
+    border-left-color: #f59e0b;
+}
+
+/* Contact Messages Dashboard Styles */
+.inbox-container {
+    max-width: 900px;
+    margin: 4rem auto 6rem;
+    padding: 0 1rem;
+}
+
+.inbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.inbox-title {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+}
+
+.inbox-title span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.message-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.message-item-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.message-item-card.unread {
+    border-left: 4px solid var(--accent-color);
+}
+
+.message-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--accent-color);
+}
+
+.message-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.message-sender-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.message-sender-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.message-sender-email {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.message-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.message-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.message-badge {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.message-badge.unread {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--accent-color);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.message-badge.read {
+    background-color: var(--badge-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.message-subject {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.message-body-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    white-space: pre-line;
+    margin-bottom: 1.5rem;
+}
+
+.message-actions-bar {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-sm-primary {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border: none;
+}
+
+.btn-sm-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-sm-danger {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.btn-sm-danger:hover {
+    background: rgba(239, 68, 68, 0.05);
+    border-color: #ef4444;
+}
+
+.empty-inbox-card {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-secondary);
+}
+
+.empty-inbox-icon {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}

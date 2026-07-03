@@ -1,0 +1,69 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Mesajlar | Özlem Uçar{% endblock %}
+
+{% block content %}
+<div class="inbox-container">
+    <div class="inbox-header">
+        <h1 class="inbox-title">Gelen <span>Mesajlar</span></h1>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+            Toplam: {{ contact_messages.count }} Mesaj
+        </div>
+    </div>
+
+    {% if contact_messages %}
+        <div class="message-card-list">
+            {% for msg in contact_messages %}
+                <div class="message-item-card {% if not msg.is_read %}unread{% endif %}">
+                    <div class="message-item-header">
+                        <div class="message-sender-info">
+                            <span class="message-sender-name">{{ msg.name }}</span>
+                            <span class="message-sender-email">{{ msg.email }}</span>
+                        </div>
+                        <div class="message-meta-info">
+                            <span class="message-date">{{ msg.created_at|date:"d M Y, H:i" }}</span>
+                            {% if msg.is_read %}
+                                <span class="message-badge read">Okundu</span>
+                            {% else %}
+                                <span class="message-badge unread">Yeni</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="message-subject">Konu: {{ msg.subject }}</div>
+                    <div class="message-body-text">{{ msg.message }}</div>
+                    
+                    <div class="message-actions-bar">
+                        {% if not msg.is_read %}
+                            <a href="{% url 'contact_message_read' msg.pk %}" class="btn-sm btn-sm-primary">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                Okundu İşaretle
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'contact_message_delete' msg.pk %}" class="btn-sm btn-sm-danger" onclick="return confirm('Bu mesajı silmek istediğinize emin misiniz?');">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Sil
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-inbox-card">
+            <div class="empty-inbox-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-6l-3 3-3-3H2"></path>
+                    <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                </svg>
+            </div>
+            <h3>Gelen kutunuz boş</h3>
+            <p style="margin-top: 0.5rem; color: var(--text-muted);">Henüz bir iletişim mesajı almadınız.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

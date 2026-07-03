@@ -24,6 +24,11 @@ urlpatterns = [
     # User Profile
     path('profile/', views.profile_edit, name='profile'),
     
+    # Contact Messages Dashboard
+    path('messages/', views.contact_messages, name='contact_messages'),
+    path('messages/<int:pk>/read/', views.contact_message_read, name='contact_message_read'),
+    path('messages/<int:pk>/delete/', views.contact_message_delete, name='contact_message_delete'),
+    
     # Post Approve
     path('post/<slug:slug>/approve/', views.post_approve, name='post_approve'),
     path('post/<slug:slug>/reject/', views.post_reject, name='post_reject'),

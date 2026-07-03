@@ -458,3 +458,67 @@ class BlogViewsTestCase(TestCase):
         self.client.login(username='testuser', password='password123')
         response = self.client.get(reverse('post_detail', kwargs={'slug': draft_post.slug}))
         self.assertEqual(response.status_code, 200)
+
+    # --- CONTACT MESSAGES DASHBOARD TESTS ---
+
+    def test_contact_messages_list_view_anonymous_redirect(self):
+        response = self.client.get(reverse('contact_messages'))
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('contact_messages')}")
+
+    def test_contact_messages_list_view_regular_user_redirect(self):
+        self.client.login(username='otheruser', password='password123')
+        response = self.client.get(reverse('contact_messages'))
+        self.assertRedirects(response, reverse('post_list'))
+
+    def test_contact_messages_list_view_staff_success(self):
+        # Create a contact message
+        msg = ContactMessage.objects.create(
+            name='Gonderen Kisi',
+            email='gonderen@test.com',
+            subject='Baslik',
+            message='Icerik'
+        )
+        # Make user staff
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='password123')
+        
+        response = self.client.get(reverse('contact_messages'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/contact_messages.html')
+        self.assertContains(response, 'Gonderen Kisi')
+        self.assertContains(response, 'Baslik')
+
+    def test_contact_message_read_view(self):
+        msg = ContactMessage.objects.create(
+            name='Gonderen Kisi',
+            email='gonderen@test.com',
+            subject='Baslik',
+            message='Icerik',
+            is_read=False
+        )
+        # Make user staff
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='password123')
+        
+        response = self.client.get(reverse('contact_message_read', kwargs={'pk': msg.pk}))
+        self.assertRedirects(response, reverse('contact_messages'))
+        msg.refresh_from_db()
+        self.assertTrue(msg.is_read)
+
+    def test_contact_message_delete_view(self):
+        msg = ContactMessage.objects.create(
+            name='Gonderen Kisi',
+            email='gonderen@test.com',
+            subject='Baslik',
+            message='Icerik'
+        )
+        # Make user staff
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='password123')
+        
+        response = self.client.get(reverse('contact_message_delete', kwargs={'pk': msg.pk}))
+        self.assertRedirects(response, reverse('contact_messages'))
+        self.assertEqual(ContactMessage.objects.filter(pk=msg.pk).count(), 0)

@@ -374,3 +374,44 @@ def post_reject(request, slug):
         messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
         return redirect('post_list')
 
+
+@login_required(login_url='login')
+def contact_messages(request):
+    # Yetki kontrolü: Yalnızca yöneticiler (staff/superuser) görebilir
+    if not (request.user.is_superuser or request.user.is_staff):
+        messages.error(request, "Bu sayfaya erişim yetkiniz bulunmamaktadır.")
+        return redirect('post_list')
+        
+    messages_list = ContactMessage.objects.all()
+    context = {
+        'contact_messages': messages_list
+    }
+    return render(request, 'blog/contact_messages.html', context)
+
+
+@login_required(login_url='login')
+def contact_message_read(request, pk):
+    # Yetki kontrolü: Yalnızca yöneticiler (staff/superuser) okundu yapabilir
+    if not (request.user.is_superuser or request.user.is_staff):
+        messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
+        return redirect('post_list')
+        
+    message = get_object_or_404(ContactMessage, pk=pk)
+    message.is_read = True
+    message.save()
+    messages.success(request, "Mesaj okundu olarak işaretlendi.")
+    return redirect('contact_messages')
+
+
+@login_required(login_url='login')
+def contact_message_delete(request, pk):
+    # Yetki kontrolü: Yalnızca yöneticiler (staff/superuser) silebilir
+    if not (request.user.is_superuser or request.user.is_staff):
+        messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
+        return redirect('post_list')
+        
+    message = get_object_or_404(ContactMessage, pk=pk)
+    message.delete()
+    messages.success(request, "Mesaj başarıyla silindi.")
+    return redirect('contact_messages')
+
