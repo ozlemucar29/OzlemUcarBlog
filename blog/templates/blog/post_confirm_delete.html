@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Yazıyı Sil | Özlem Uçar{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: calc(100vh - 200px); display: flex; align-items: center; justify-content: center; padding: 4rem 0;">
+    <div class="form-card" style="width: 100%; max-width: 500px; text-align: center;">
+        <div class="about-avatar-wrapper" style="width: 80px; height: 80px; margin-bottom: 1.5rem; background: rgba(239, 68, 68, 0.1); border-color: #ef4444; display: flex; align-items: center; justify-content: center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+        </div>
+        
+        <h2 class="form-title" style="margin-bottom: 1rem; color: var(--text-primary);">Yazıyı Silmek İstediğinize Emin misiniz?</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.5;">
+            "<strong>{{ post.title }}</strong>" başlıklı blog yazısı ve bu yazıya ait tüm yorumlar kalıcı olarak silinecektir. Bu işlem geri alınamaz!
+        </p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="{% url 'post_edit' post.slug %}" class="btn" style="background: none; color: var(--text-secondary); border: 1px solid var(--border-color); box-shadow: none;">İptal Et</a>
+                
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);">
+                    Evet, Kalıcı Olarak Sil
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

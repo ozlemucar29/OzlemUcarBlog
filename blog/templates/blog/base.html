@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Özlem Uçar | Kişisel Blog{% endblock %}</title>
+    <meta name="description" content="Özlem Uçar'ın teknoloji, yazılım ve tasarım üzerine paylaşımlar yaptığı kişisel blog sitesi.">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="container">
+            <a href="{% url 'post_list' %}" class="logo" id="site-logo">ÖZLEM UÇAR</a>
+            
+            <nav>
+                <ul class="nav-menu" role="navigation">
+                    <li><a href="{% url 'post_list' %}" class="nav-link {% if request.resolver_match.url_name == 'post_list' or request.resolver_match.url_name == 'post_detail' %}active{% endif %}">Blog</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">Hakkımda</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">İletişim</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'post_create' %}" class="nav-link {% if request.resolver_match.url_name == 'post_create' %}active{% endif %}" style="color: var(--accent-color); font-weight: 600;">Yeni Yazı</a></li>
+                        <li><a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Profilim</a></li>
+                        <li><a href="{% url 'logout' %}" class="nav-link" style="opacity: 0.8;">Çıkış</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">Giriş Yap</a></li>
+                        <li><a href="{% url 'register' %}" class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" style="color: var(--accent-color); font-weight: 600;">Kayıt Ol</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <div class="controls">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Temayı Değiştir" title="Karanlık/Aydınlık Tema">
+                    <svg class="moon-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.38 5.38 0 0 1-4.4 2.26 5.4 5.4 0 0 1-5.4-5.4 5.38 5.38 0 0 1 2.26-4.4C12.92 3.04 12.46 3 12 3z"/>
+                    </svg>
+                    <svg class="sun-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+                
+                <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-label="Menüyü Aç/Kapat">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Reading Progress Bar (Only visible in post detail) -->
+    {% block progress_bar %}{% endblock %}
+
+    <!-- Toast Notifications -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="toast {{ message.tags }}" id="msg-{{ forloop.counter }}">
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <a href="{% url 'post_list' %}" class="footer-logo">ÖZLEM UÇAR</a>
+            <ul class="footer-links">
+                <li><a href="{% url 'post_list' %}" class="footer-link">Blog</a></li>
+                <li><a href="{% url 'about' %}" class="footer-link">Hakkımda</a></li>
+                <li><a href="{% url 'contact' %}" class="footer-link">İletişim</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'login' %}" class="footer-link" style="opacity: 0.6; font-size: 0.8rem;">Giriş Yap</a></li>
+                    <li><a href="{% url 'register' %}" class="footer-link" style="opacity: 0.6; font-size: 0.8rem;">Kayıt Ol</a></li>
+                {% endif %}
+            </ul>
+            <p>&copy; {% now "Y" %} Özlem Uçar. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript File -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

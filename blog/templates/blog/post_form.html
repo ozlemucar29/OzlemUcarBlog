@@ -1,0 +1,121 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ title }} | Özlem Uçar{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 4rem 0 6rem;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <header style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <a href="{% url 'post_list' %}" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--accent-color); font-weight: 600; margin-bottom: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Geri Dön
+                </a>
+                <h1 class="hero-title" style="font-size: 2.5rem; text-align: left; margin: 0;">{{ title }}</h1>
+            </div>
+            
+            {% if post %}
+                <a href="{% url 'post_delete' post.slug %}" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Yazıyı Sil
+                </a>
+            {% endif %}
+        </header>
+
+        <!-- Editor Form Card -->
+        <div class="form-card">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Display Non-field errors if any -->
+                {% if form.non_field_errors %}
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 8px; padding: 1rem; color: #ef4444; margin-bottom: 1.5rem;">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">Başlık *</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <span style="color: #ef4444; font-size: 0.85rem;">{{ form.title.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Category and Status Grid -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="{{ form.category.id_for_label }}">Kategori *</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <span style="color: #ef4444; font-size: 0.85rem;">{{ form.category.errors }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if form.status %}
+                    <div class="form-group">
+                        <label for="{{ form.status.id_for_label }}">Yayınlanma Durumu *</label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <span style="color: #ef4444; font-size: 0.85rem;">{{ form.status.errors }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Featured Image Field -->
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}">Öne Çıkan Görsel</label>
+                    {{ form.image }}
+                    {% if post.image %}
+                        <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <img src="{{ post.image.url }}" alt="Görsel önizleme" style="max-height: 80px; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">Mevcut görsel kullanılmaya devam edecek. Yenisini yükleyerek değiştirebilirsiniz.</span>
+                        </div>
+                    {% endif %}
+                    {% if form.image.errors %}
+                        <span style="color: #ef4444; font-size: 0.85rem;">{{ form.image.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Summary Field -->
+                <div class="form-group">
+                    <label for="{{ form.summary.id_for_label }}">Kısa Özet * (Kartlarda ve Arama Sonuçlarında Gösterilecek)</label>
+                    {{ form.summary }}
+                    {% if form.summary.errors %}
+                        <span style="color: #ef4444; font-size: 0.85rem;">{{ form.summary.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Content Field -->
+                <div class="form-group">
+                    <label for="{{ form.content.id_for_label }}">Yazı İçeriği *</label>
+                    {{ form.content }}
+                    {% if form.content.errors %}
+                        <span style="color: #ef4444; font-size: 0.85rem;">{{ form.content.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                    <a href="{% url 'post_list' %}" class="btn" style="background: none; color: var(--text-secondary); border: 1px solid var(--border-color); box-shadow: none;">İptal Et</a>
+                    
+                    <button type="submit" class="btn">
+                        {% if post %}Yazıyı Güncelle{% else %}Yazıyı Yayınla{% endif %}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

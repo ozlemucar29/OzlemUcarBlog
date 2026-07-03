@@ -1,0 +1,75 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Hakkımda | Özlem Uçar{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="about-wrapper">
+        <!-- Sidebar Info -->
+        <aside class="about-card">
+            <h2 class="about-name">Özlem Uçar</h2>
+            <p class="about-title">Yazılım Geliştirici & Tasarımcı</p>
+            
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">Teknolojiye meraklı, kod yazmayı ve estetik tasarımlar üretmeyi seven bir dijital yaratıcıyım.</p>
+            
+            <!-- Social Accounts -->
+            <div class="about-socials">
+                <a href="https://github.com" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub" title="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn" title="LinkedIn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <a href="mailto:ozlem@ornek.com" class="social-btn" aria-label="E-posta" title="E-posta Gönder">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Bio Main -->
+        <main class="about-bio-card">
+            <h1 class="about-bio-title">Merhaba, Ben Özlem!</h1>
+            <div class="about-bio-content">
+                <p>Kişisel teknoloji ve tasarım bloguma hoş geldiniz! Ben, modern web teknolojileri ve kullanıcı deneyimi tasarımı üzerinde uzmanlaşmaya çalışan hevesli bir yazılımcıyım.</p>
+                
+                <p>Bu siteyi, sadece edindiğim teknik bilgileri paylaşmak için değil, aynı zamanda kişisel serüvenimi ve dijital dünyadaki keşiflerimi de arşivlemek amacıyla oluşturdum. Python, Django, HTML, CSS ve JavaScript teknolojileri kullanarak web siteleri tasarlamak ve geliştirmek en büyük tutkularımdan biri.</p>
+
+                <h3 style="color: var(--text-primary); margin: 2rem 0 1rem; font-family: var(--font-heading);">Uzmanlık Alanlarım</h3>
+                <ul style="padding-left: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; list-style-type: none; margin-bottom: 2rem;">
+                    <li style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;">
+                        <span style="color: var(--accent-color); font-weight: bold;">✔</span> Python & Django Web Geliştirme
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;">
+                        <span style="color: var(--accent-color); font-weight: bold;">✔</span> Modern CSS Tasarımları & UI
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;">
+                        <span style="color: var(--accent-color); font-weight: bold;">✔</span> Responsive Mobil Uyumlu Tasarım
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;">
+                        <span style="color: var(--accent-color); font-weight: bold;">✔</span> Git & Proje Yönetimi
+                    </li>
+                </ul>
+
+                <p>Hobilerim arasında yeni teknolojiler üzerine araştırmalar yapmak, makaleler okumak, seyahat etmek ve dijital çizimler yapmak yer alıyor. Projelerim hakkında daha fazla bilgi almak veya sadece merhaba demek isterseniz bana her zaman iletişim sayfasından ulaşabilirsiniz.</p>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

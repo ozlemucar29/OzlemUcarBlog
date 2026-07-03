@@ -1,0 +1,178 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} | Özlem Uçar{% endblock %}
+
+{% block progress_bar %}
+<!-- Reading Progress Bar -->
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+</div>
+{% endblock %}
+
+{% block content %}
+<article class="detail-wrapper">
+    <!-- Header of the Post -->
+    <header class="detail-header">
+        <div class="container">
+            {% if post.category %}
+                <span class="detail-category">{{ post.category.name }}</span>
+            {% endif %}
+            {% if post.status == 'draft' %}
+                <span class="detail-category" style="background-color: #fef3c7; color: #d97706; border: 1px solid #f59e0b;">Onay Bekliyor</span>
+            {% endif %}
+            <h1 class="detail-title">{{ post.title }}</h1>
+            
+            <div class="detail-meta">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    {{ post.created_at|date:"d N Y" }}
+                </span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    {{ post.author.get_full_name|default:post.author.username }}
+                </span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    {{ post.views_count }} okuma
+                </span>
+            </div>
+            
+            {% if user.is_authenticated %}
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: center;">
+                    {% if post.author == user %}
+                        <a href="{% url 'post_edit' post.slug %}" class="btn" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; background: var(--accent-gradient);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            Yazıyı Düzenle
+                        </a>
+                    {% endif %}
+                    
+                    {% if post.status == 'draft' %}
+                        {% if user.is_staff or user.is_superuser %}
+                            <a href="{% url 'post_approve' post.slug %}" class="btn" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                Yazıyı Onayla ve Yayınla
+                            </a>
+                            <a href="{% url 'post_reject' post.slug %}" class="btn" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);" onclick="return confirm('Bu yazıyı reddetmek istediğinize emin misiniz?')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                                Reddet
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Post Featured Image -->
+    <div class="detail-banner">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% else %}
+            <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80" alt="{{ post.title }}">
+        {% endif %}
+    </div>
+
+    <!-- Post Main Content and Comments -->
+    <div class="detail-container">
+        <div class="container">
+            <!-- Article Body -->
+            <div class="detail-content">
+                {{ post.content|linebreaks }}
+            </div>
+
+            <!-- Comments Section -->
+            <section class="comments-section">
+                <h3 class="comments-title">Yorumlar ({{ comments.count }})</h3>
+                
+                <!-- Approved Comments List -->
+                {% if comments %}
+                    {% for comment in comments %}
+                        <div class="comment-card" {% if not comment.is_approved %}style="border-color: #f59e0b; background-color: rgba(245, 158, 11, 0.03);"{% endif %}>
+                            <div class="comment-header">
+                                <div>
+                                    <span class="comment-author">{{ comment.name }}</span>
+                                    {% if not comment.is_approved %}
+                                        <span class="badge" style="background-color: #fef3c7; color: #d97706; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem;">Onay Bekliyor</span>
+                                    {% endif %}
+                                </div>
+                                <span class="comment-date">{{ comment.created_at|date:"d N Y, H:i" }}</span>
+                            </div>
+                            <div class="comment-body">
+                                <p>{{ comment.content|linebreaksbr }}</p>
+                                
+                                {% if user.is_authenticated %}
+                                    {% if user.is_superuser or user.is_staff or post.author == user %}
+                                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                                            {% if not comment.is_approved %}
+                                                <a href="{% url 'comment_approve' comment.pk %}" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);">Onayla</a>
+                                            {% endif %}
+                                            <a href="{% url 'comment_delete' comment.pk %}" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);" onclick="return confirm('Bu yorumu silmek istediğinize emin misiniz?')">Sil</a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                {% endif %}
+
+                <!-- Comment Submission Form -->
+                <div class="form-card">
+                    <h3 class="form-title">Yorum Bırakın</h3>
+                    <form method="POST" action="{% url 'post_detail' post.slug %}">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                            <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                                <strong>{{ user.get_full_name|default:user.username }}</strong> olarak yorum yapıyorsunuz.
+                            </p>
+                        {% else %}
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="name">Adınız Soyadınız *</label>
+                                    <input type="text" id="name" name="name" required placeholder="Örn: Özlem Uçar">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">E-posta Adresiniz * (Yayınlanmayacaktır)</label>
+                                    <input type="email" id="email" name="email" required placeholder="Örn: ozlem@ornek.com">
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-group full-width" style="margin-bottom: 1.5rem;">
+                            <label for="content">Yorumunuz *</label>
+                            <textarea id="content" name="content" rows="6" required placeholder="Düşüncelerinizi paylaşın..."></textarea>
+                        </div>
+                        <button type="submit" class="btn">
+                            Yorum Gönder
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</article>
+{% endblock %}
